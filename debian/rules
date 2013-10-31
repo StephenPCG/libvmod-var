@@ -16,9 +16,14 @@ override_dh_gencontrol:
 		dh_gencontrol ; \
 	fi
 
+override_dh_auto_install:
+	dh_auto_install -a
+	find $(CURDIR)/debian/ -name \*.la -delete
+	find $(CURDIR)/debian/ -name \*.a -delete
+
 .PHONY: compilevarnish
 compilevarnish:
-	cd $(VARNISHSRC) && ./autogen.sh && ./configure --prefix=/usr && make -j$(NUMJOBS)
+	cd $(VARNISHSRC) && ./autogen.sh && ./configure --prefix=/usr --libdir=/usr/lib/$(DEB_HOST_MULTIARCH) && make -j$(NUMJOBS)
 
 %:
 	dh $@
