@@ -1,3 +1,9 @@
+varnish-vmod-var (3.0.4-1) unstable; urgency=low
+
+  * re-debianize based on upstream code
+
+ -- Zhang Cheng <stephenpcg@gmail.com>  Thu, 31 Oct 2013 21:50:00 +0800
+
 libvmod-var (0.1) unstable; urgency=low
 
   * First version

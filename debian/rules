@@ -1,11 +1,13 @@
 #!/usr/bin/make -f
 export DH_VERBOSE=1
 
-VARNISHSRC = $(DEBIAN_VARNISH_SRC)
-VMODDIR = $(shell PKG_CONFIG_PATH="$(VARNISHSRC)" pkg-config --variable=vmoddir varnishapi)
+VARNISHSRC := $(PWD)/varnish/
+NUMJOBS := $(shell grep -c ^processor /proc/cpuinfo)
 
-override_dh_auto_configure:
-	dh_auto_configure -- VMODDIR="$(VMODDIR)" VARNISHSRC="$(VARNISHSRC)"
+override_dh_auto_configure: compilevarnish
+	./autogen.sh
+	$(eval VMODDIR := $(shell PKG_CONFIG_PATH=$(VARNISHSRC) pkg-config --variable=vmoddir varnishapi))
+	dh_auto_configure -- VMODDIR=$(VMODDIR) VARNISHSRC="$(VARNISHSRC)"
 
 override_dh_gencontrol:
 	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
@@ -13,6 +15,10 @@ override_dh_gencontrol:
 	else \
 		dh_gencontrol ; \
 	fi
+
+.PHONY: compilevarnish
+compilevarnish:
+	cd $(VARNISHSRC) && ./autogen.sh && ./configure --prefix=/usr && make -j$(NUMJOBS)
 
 %:
 	dh $@

@@ -1,12 +1,15 @@
-Source: libvmod-var
+Source: varnish-vmod-var
 Section: web
 Priority: extra
-Maintainer: Lasse Karstensen <lkarsten@varnish-software.com>
-Build-Depends: debhelper (>= 7), build-essential, python-docutils
+Maintainer: Zhang Cheng <stephenpcg@gmail.com>
+Build-Depends: debhelper (>= 7), build-essential, python-docutils, pkg-config, libtool, automake,
+    autotools-dev, libpcre3-dev, libedit-dev, xsltproc, groff-base, libncurses-dev
 Standards-Version: 3.8.1
-Vcs-Git: git://github.com/varnish/libvmod-var.git
+Vcs-Git: git://github.com/StephenPCG/libvmod-var.git
 
-Package: libvmod-var
+Package: varnish-vmod-var
 Architecture: any
-Depends: varnish, ${misc:Depends}
+Depends: varnish (=3.0.4-1), ${misc:Depends}
 Description:  Variable support VMOD
+ This VMOD implements basic variable in VCL. Well. It's more of an
+ association list with support for strings, ints and reals.
